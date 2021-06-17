@@ -30,7 +30,7 @@ const CatagoriesBar = () => {
     }
 
     return (
-        <div className="catagoriesBar">
+        <div className="categoriesBar">
             {
                 keywords.map((value, i)=>(
                 <span
