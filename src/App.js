@@ -5,7 +5,9 @@ import { Container } from 'react-bootstrap'
 import HomeScreen from './screens/homeScreen/HomeScreen'
 import './_app.scss'
 import LoginScreen from './screens/loginScreen/LoginScreen'
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
 
 
 const Layout = ({children}) => {
@@ -30,8 +32,16 @@ const Layout = ({children}) => {
 
 const App = () => {
 
+    const {accessToken, loading} = useSelector(state => state.auth)
+    const history = useHistory()
+
+    useEffect(() => {
+        if(!loading && !accessToken) {
+            history.push('/auth')
+        }
+    }, [accessToken, loading, history])
+
     return (
-        <Router>
             <Switch>
                 <Route path="/" exact>
                     <Layout>
@@ -50,7 +60,6 @@ const App = () => {
                     <Redirect to="/" />
                 </Route>
             </Switch>
-        </Router>
     )
 }
 
