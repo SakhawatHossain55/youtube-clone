@@ -5,25 +5,31 @@ import { MdThumbUp, MdThumbDown } from "react-icons/md";
 import ShowMoreText from "react-show-more-text";
 import "./_videoMetaData.scss";
 
-const VideoMetaData = () => {
+const VideoMetaData = ({ video, videoId }) => {
+
+  // const { channelId, channelTitle, description, title, publishedAt } = snippet
+  // const { viewCount, likeCount, dislikeCount } = statistics
+console.log(video?.statistics.dislikeCount);
+  console.log(video?.snippet.description);
+
   return (
     <div className="videoMetaData py-2">
       <div className="videoMetaData__top">
-        <h5>Video Title</h5>
+        <h5>{video?.snippet.title}</h5>
         <div className="d-flex justify-content-between align-items-center py-1">
           <span>
-            {numeral(100000).format("0.a")} views •
-            {moment("2020-06-6").fromNow()}
+            {numeral(video?.statistics.viewCount).format("0.a")} views •
+            {moment(video?.snippet.publishedAt).fromNow()}
           </span>
 
           <div>
             <span className="mr-3">
               <MdThumbUp size={26} />
-              {numeral(100000).format("0.a")}
+              {numeral(video?.statistics.likeCount).format("0.a")}
             </span>
             <span className="mr-3">
               <MdThumbDown size={26} />
-              {numeral(100000).format("0.a")}
+              {numeral(video?.statistics.dislikeCount).format("0.a")}
             </span>
           </div>
         </div>
@@ -36,7 +42,7 @@ const VideoMetaData = () => {
             className="rounder-circle mr-3"
           />
           <div className="d-flex flex-column">
-            <span>Backbench Coder</span>
+            <span>{video?.snippet.channelTitle}</span>
             <span>{numeral(100000).format("0.a")} Subscriber</span>
           </div>
         </div>
@@ -49,19 +55,8 @@ const VideoMetaData = () => {
             more="SHOW MORE"
             less="SHOW LESS"
             anchorClass="showMoreText"
-            expanded={false}
-        >
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto
-          hic explicabo labore amet sint dolorem reiciendis inventore laboriosam
-          voluptatibus iusto, molestiae accusantium quaerat rerum similique
-          aliquid non quos corrupti eaque est odit suscipit quisquam corporis!
-          Ab modi libero sit sapiente doloremque nobis porro, minima est enim
-          doloribus. Illum, eaque tempore? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto
-          hic explicabo labore amet sint dolorem reiciendis inventore laboriosam
-          voluptatibus iusto, molestiae accusantium quaerat rerum similique
-          aliquid non quos corrupti eaque est odit suscipit quisquam corporis!
-          Ab modi libero sit sapiente doloremque nobis porro, minima est enim
-          doloribus. Illum, eaque tempore?
+            expanded={false}>
+         {video?.snippet.description}
         </ShowMoreText>
       </div>
     </div>
