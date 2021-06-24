@@ -33,7 +33,7 @@ console.log(video?.statistics.dislikeCount);
             {moment(video?.snippet.publishedAt).fromNow()}
           </span>
 
-          {/* <div>
+          <div>
             <span className="mr-3">
               <MdThumbUp size={26} />
               {numeral(video?.statistics.likeCount).format("0.a")}
@@ -42,7 +42,7 @@ console.log(video?.statistics.dislikeCount);
               <MdThumbDown size={26} />
               {numeral(video?.statistics.dislikeCount).format("0.a")}
             </span>
-          </div> */}
+          </div>
         </div>
       </div>
       <div className="videoMetaData__channel d-flex align-items-center justify-content-between my-2 py-3">
