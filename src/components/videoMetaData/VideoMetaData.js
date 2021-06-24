@@ -1,8 +1,11 @@
 import moment from "moment";
 import numeral from "numeral";
 import React from "react";
+import { useEffect } from "react";
 import { MdThumbUp, MdThumbDown } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 import ShowMoreText from "react-show-more-text";
+import { getChannelDetails } from "../../redux/action/channel.action";
 import "./_videoMetaData.scss";
 
 const VideoMetaData = ({ video, videoId }) => {
@@ -10,7 +13,15 @@ const VideoMetaData = ({ video, videoId }) => {
   // const { channelId, channelTitle, description, title, publishedAt } = snippet
   // const { viewCount, likeCount, dislikeCount } = statistics
 console.log(video?.statistics.dislikeCount);
-  console.log(video?.snippet.description);
+  console.log(video?.snippet.channelId);
+
+  const dispatch = useDispatch();
+
+  // const {snippet, channelSnippet} = useSelector(state => state.getChannelDetails.channel) 
+
+  useEffect(() => {
+    dispatch(getChannelDetails(video?.snippet.channelId))
+  },[dispatch, (video?.snippet.channelId)])
 
   return (
     <div className="videoMetaData py-2">
@@ -22,7 +33,7 @@ console.log(video?.statistics.dislikeCount);
             {moment(video?.snippet.publishedAt).fromNow()}
           </span>
 
-          <div>
+          {/* <div>
             <span className="mr-3">
               <MdThumbUp size={26} />
               {numeral(video?.statistics.likeCount).format("0.a")}
@@ -31,7 +42,7 @@ console.log(video?.statistics.dislikeCount);
               <MdThumbDown size={26} />
               {numeral(video?.statistics.dislikeCount).format("0.a")}
             </span>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="videoMetaData__channel d-flex align-items-center justify-content-between my-2 py-3">
