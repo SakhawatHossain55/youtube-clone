@@ -3,14 +3,13 @@ import {
     CHANNEL_DETAILS_REQUEST,
     CHANNEL_DETAILS_SUCCESS,
     SET_SUBSCRIPTION_STATUS,
-    // SET_SUBSCRIPTION_STATUS,
  } from '../actionType'
  
  export const channelDetailsReducer = (
     state = {
        loading: true,
        channel: {},
-      //  subscriptionStatus: false,
+       subscriptionStatus: false,
     },
     action
  ) => {

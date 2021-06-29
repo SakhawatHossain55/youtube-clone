@@ -5,22 +5,28 @@ import "./_videoMetaData.scss";
 import { MdThumbUp, MdThumbDown } from "react-icons/md";
 import ShowMoreText from "react-show-more-text";
 import { useDispatch, useSelector } from "react-redux";
-import { checkSubscriptionStatus, getChannelDetails } from "../../redux/action/channel.action";
+import {
+  checkSubscriptionStatus,
+  getChannelDetails,
+} from "../../redux/action/channel.action";
 
-const VideoMetaData = ({video:{snippet, statistics}, videoId}) => {
+const VideoMetaData = ({ video: { snippet, statistics }, videoId }) => {
+  const { channelId, channelTitle, description, title, publishedAt } = snippet;
+  const { viewCount, likeCount, DislikesCount } = statistics;
 
-  const {channelId, channelTitle, description, title, publishedAt} = snippet;
-  const {viewCount, likeCount, DislikesCount} = statistics;
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+  const { snippet: channelSnippet, statistics: channelStatistics } =
+    useSelector((state) => state.channelDetails.channel);
 
-  const {snippet:channelSnippet, statistics:channelStatistics} = useSelector(state => state.channelDetails.channel)
+  const { subscriptionStatus } = useSelector(
+    (state) => state.channelDetails.subscriptionStatus
+  );
 
   useEffect(() => {
-
-    dispatch(getChannelDetails(channelId))
-    // dispatch(checkSubscriptionStatus(channelId))
-  }, [dispatch, channelId])
+    dispatch(getChannelDetails(channelId));
+    dispatch(checkSubscriptionStatus(channelId));
+  }, [dispatch, channelId]);
 
   return (
     <div className="VideoMetaData py-2">
@@ -51,20 +57,25 @@ const VideoMetaData = ({video:{snippet, statistics}, videoId}) => {
           />
           <div className="d-flex flex-column">
             <span>{channelTitle}</span>
-            <span>{numeral(channelStatistics?.subscriberCount).format("0.a")} Subscribers</span>
+            <span>
+              {numeral(channelStatistics?.subscriberCount).format("0.a")}{" "}
+              Subscribers
+            </span>
           </div>
         </div>
-        <button className="btn border-0 p-2 m-2">Subscribe</button>
+        <button className={`btn border-0 p-2 m-2 ${subscriptionStatus && 'btn-gray'}`}>
+          {subscriptionStatus ? "Subscribed" : "Subscribe"}
+        </button>
       </div>
       <div className="VideoMetaData__description">
-        <ShowMoreText 
-        lines={3}
-        more="SHOW MORE"
-        less="SHOW LESS"
-        anchorClass='showMoreText'
-        expanded={false}
+        <ShowMoreText
+          lines={3}
+          more="SHOW MORE"
+          less="SHOW LESS"
+          anchorClass="showMoreText"
+          expanded={false}
         >
-       {description}
+          {description}
         </ShowMoreText>
       </div>
     </div>
